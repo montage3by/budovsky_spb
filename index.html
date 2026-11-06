@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Budovsky · Яндекс Директ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=PT+Serif&display=swap">
+<link rel="stylesheet" href="assets/theme.css">
+<script src="assets/dash-shim.js"></script>
+</head>
+<body>
+<div class="wrap">
+<style>
+.bd { display: grid; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); color: var(--color-fg); font-variant-numeric: tabular-nums; }
+.bd b { font-weight: 600; }
+.bd-head { display: grid; gap: var(--cds-gap-sm); }
+.bd-eyebrow { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); letter-spacing: .02em; }
+.bd-title { margin: 0; font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); line-height: 1.15; text-wrap: balance; }
+.bd-lede { margin: 0; max-width: 65ch; font-size: var(--cds-font-size-body); line-height: 1.5; }
+.bd-tabs { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); border-bottom: 1px solid var(--color-border-line); }
+.bd-tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: var(--cds-pad-sm) var(--cds-pad-md); font: inherit; font-size: var(--cds-font-size-body); color: var(--color-fg-muted); cursor: pointer; }
+.bd-tab:hover { color: var(--color-fg); }
+.bd-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: 500; }
+.bd-tab:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+.bd-page { display: grid; gap: var(--cds-gap-lg); }
+.bd-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--cds-gap-md); }
+@media (max-width: 640px) { .bd-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.bd-kpi { display: grid; gap: var(--cds-gap-xs); align-content: start; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); }
+.bd-kpi-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.bd-kpi-val { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); line-height: 1.2; white-space: nowrap; }
+.bd-kpi-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.bd-alert { display: grid; gap: var(--cds-gap-xs); border: 1px solid var(--color-border-line); border-left: 3px solid var(--color-warn); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); background: var(--color-panel); }
+.bd-alert h3 { margin: 0; font-size: var(--cds-font-size-body); font-weight: 600; color: var(--color-warn); }
+.bd-alert p { margin: 0; max-width: 80ch; line-height: 1.5; font-size: var(--cds-font-size-body); }
+.bd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
+.bd-card { display: grid; gap: var(--cds-gap-md); align-content: start; min-width: 0; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); }
+.bd-card-head { display: grid; gap: var(--cds-gap-xs); }
+.bd-card h2 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.bd-card-note { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.45; }
+.bd-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.bd-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.bd-sw { width: 10px; height: 10px; border-radius: 2px; display: inline-block; background: var(--cds-chart-muted); }
+.bd-chart { display: grid; gap: var(--cds-gap-md); min-height: 9rem; }
+.bd-row { display: grid; gap: 6px; }
+.bd-row-label { font-size: var(--cds-font-size-body); display: flex; justify-content: space-between; gap: var(--cds-gap-sm); }
+.bd-row-label em { font-style: normal; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.bd-bar { display: grid; grid-template-columns: 1fr 4.2rem; align-items: center; gap: var(--cds-gap-sm); }
+.bd-track { position: relative; height: 14px; background: var(--cds-chart-grid); border-radius: 3px; }
+.bd-track i { position: absolute; inset: 0 auto 0 0; border-radius: 3px; }
+.bd-ref { position: absolute; top: -4px; bottom: -4px; width: 0; border-left: 2px dashed var(--cds-chart-reference); }
+.bd-bar-v { font-size: var(--cds-font-size-caption); text-align: right; white-space: nowrap; }
+.bd-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); gap: var(--cds-gap-md); }
+.bd-mini { display: grid; gap: 2px; }
+.bd-mini-val { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-title); line-height: 1.2; }
+.bd-mini-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.bd-link { appearance: none; background: none; border: 0; padding: 0; font: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; justify-self: start; }
+.bd-tablewrap { overflow-x: auto; }
+.bd-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); }
+.bd-table th, .bd-table td { padding: var(--cds-pad-sm) var(--cds-pad-sm); text-align: right; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+.bd-table th { font-size: var(--cds-font-size-caption); font-weight: 500; color: var(--color-fg-muted); position: sticky; top: 0; background: var(--color-panel); }
+.bd-table th:nth-child(-n+3), .bd-table td:nth-child(-n+3) { text-align: left; }
+.bd-table td:first-child { white-space: normal; min-width: 12rem; }
+.bd-table td small { display: block; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.bd-pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: var(--cds-font-size-caption); border: 1px solid currentColor; }
+.bd-pill.is-on { color: var(--color-ok); }
+.bd-pill.is-new { color: var(--color-warn); }
+.bd-pill.is-off { color: var(--color-fg-muted); }
+.bd-notes { margin: 0; padding-left: 1.1rem; display: grid; gap: var(--cds-gap-xs); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.5; max-width: 90ch; }
+.bd-works { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: var(--cds-gap-md); }
+.bd-work { display: grid; gap: var(--cds-gap-xs); align-content: start; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); }
+.bd-work h3 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.bd-work p { margin: 0; line-height: 1.5; font-size: var(--cds-font-size-body); }
+.bd-work .bd-pill { justify-self: start; }
+.bd-period { display: flex; flex-wrap: wrap; align-items: center; gap: var(--cds-gap-sm) var(--cds-gap-md); margin-top: var(--cds-gap-xs); }
+.bd-period-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.bd-period-select { min-width: 11rem; }
+.bd-period-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.bd-block { display: grid; gap: var(--cds-gap-lg); }
+.bd-h2 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+[data-dash-source-state=empty] { color: transparent; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+</style>
+
+<div class="bd">
+  <header class="bd-head" id="top">
+    <p class="bd-eyebrow">Клиника доктора Будовского · Яндекс Директ · <span data-draw="text" data-source="totals" data-field="dates">—</span></p>
+    <h1 class="bd-title">Дашборд по рекламным кампаниям</h1>
+    <p class="bd-lede" data-period="2026-10">Элайнеры дали <b data-draw="num" data-fmt="int" data-source="campaigns" data-field="conversions" data-base-where="direction=Элайнеры">—</b> из <b data-draw="num" data-fmt="int" data-source="totals" data-field="conversions">—</b> конверсий месяца при самом низком CPA, <b data-draw="num" data-fmt="rub" data-source="campaigns" data-field="cpa" data-base-where="direction=Элайнеры">—</b>. Часть октября Директ не работал из-за сбоя в дата-центрах Яндекса, поэтому расход, показы и клики ниже, чем в сентябре.</p>
+    <div class="bd-period" id="period">
+      <label class="bd-period-label" for="period-select">Период статистики</label>
+      <select class="dash-select bd-period-select" id="period-select" data-draw="period-select" data-source="totals"></select>
+      <span class="bd-period-note">Новые месяцы появятся в списке, как только добавим их данные</span>
+    </div>
+  </header>
+
+  <nav class="bd-tabs" role="tablist" aria-label="Разделы">
+    <button class="bd-tab" id="tab-overview" role="tab" data-tab="overview" aria-selected="true">Обзор</button>
+    <button class="bd-tab" id="tab-campaigns" role="tab" data-tab="campaigns" aria-selected="false">Кампании</button>
+    <button class="bd-tab" id="tab-leads" role="tab" data-tab="leads" aria-selected="false">Заявки с сайта</button>
+    <button class="bd-tab" id="tab-works" role="tab" data-tab="works" aria-selected="false">Работы и структура</button>
+  </nav>
+
+  <!-- Обзор -->
+  <section class="bd-page" id="overview" data-page="overview" role="tabpanel" aria-labelledby="tab-overview">
+    <div class="bd-kpis" id="kpis">
+      <div class="bd-kpi"><span class="bd-kpi-label">Расход</span><span class="bd-kpi-val" data-draw="num" data-fmt="rub" data-source="totals" data-field="spend">—</span><span class="bd-kpi-note">все кампании</span></div>
+      <div class="bd-kpi"><span class="bd-kpi-label">Показы</span><span class="bd-kpi-val" data-draw="num" data-fmt="int" data-source="totals" data-field="impressions">—</span><span class="bd-kpi-note">за выбранный период</span></div>
+      <div class="bd-kpi"><span class="bd-kpi-label">Клики</span><span class="bd-kpi-val" data-draw="num" data-fmt="int" data-source="totals" data-field="clicks">—</span><span class="bd-kpi-note">по объявлениям</span></div>
+      <div class="bd-kpi"><span class="bd-kpi-label">CTR</span><span class="bd-kpi-val" data-draw="num" data-fmt="pct" data-source="totals" data-field="ctr">—</span><span class="bd-kpi-note">клики от показов</span></div>
+      <div class="bd-kpi"><span class="bd-kpi-label">Ср. CPC</span><span class="bd-kpi-val" data-draw="num" data-fmt="rub" data-source="totals" data-field="cpc">—</span><span class="bd-kpi-note">стоимость клика</span></div>
+      <div class="bd-kpi"><span class="bd-kpi-label">Конверсии</span><span class="bd-kpi-val" data-draw="num" data-fmt="int" data-source="totals" data-field="conversions">—</span><span class="bd-kpi-note">цели Метрики</span></div>
+      <div class="bd-kpi"><span class="bd-kpi-label">CPA</span><span class="bd-kpi-val" data-draw="num" data-fmt="rub" data-source="totals" data-field="cpa">—</span><span class="bd-kpi-note">стоимость конверсии</span></div>
+      <div class="bd-kpi"><span class="bd-kpi-label">Конверсия</span><span class="bd-kpi-val" data-draw="num" data-fmt="pct" data-source="totals" data-field="cr">—</span><span class="bd-kpi-note">из клика в действие</span></div>
+    </div>
+
+    <div class="bd-alert" id="outage" data-period="2026-10">
+      <h3>Перебои в работе Яндекс Директа</h3>
+      <p>Часть октября Директ не работал из-за проблем в дата-центрах Яндекса. Яндекс предупреждает, что данные о конверсиях за этот период могут быть неполными: конверсии, совершённые с 11 октября, не связываются с кликами до 11 октября, а в атрибуции к показу — с показами 11–22 октября. Такие конверсии не потеряны: в Метрике они отнесены к другим источникам.</p>
+    </div>
+
+    <div class="bd-grid">
+      <article class="bd-card" id="card-share">
+        <div class="bd-card-head">
+          <h2>Доля бюджета и доля результата</h2>
+          <p class="bd-card-note">Какую часть расхода и какую часть конверсий дало каждое направление за период</p>
+          <div class="bd-legend"><span><i class="bd-sw" data-sw="0"></i>Расход</span><span><i class="bd-sw" data-sw="1"></i>Конверсии</span></div>
+        </div>
+        <div class="bd-chart" data-draw="share" data-source="direction_share">—</div>
+      </article>
+
+      <article class="bd-card" id="card-cpa">
+        <div class="bd-card-head">
+          <h2>CPA по направлениям</h2>
+          <p class="bd-card-note">Стоимость конверсии в рублях. Пунктир — средний CPA по всем кампаниям, <span data-draw="num" data-fmt="rub" data-source="totals" data-field="cpa">—</span></p>
+        </div>
+        <div class="bd-chart" data-draw="cpa" data-source="direction_share totals">—</div>
+      </article>
+
+      <article class="bd-card" id="card-leads-mini">
+        <div class="bd-card-head">
+          <h2>Заявки с сайта</h2>
+          <p class="bd-card-note">Формы на сайте за период. Это отдельный счёт от конверсий Директа: цели Метрики включают и другие действия</p>
+        </div>
+        <div class="bd-split">
+          <div class="bd-mini"><span class="bd-mini-val" data-draw="num" data-fmt="int" data-source="leads_total" data-field="leads">—</span><span class="bd-mini-label">всего заявок</span></div>
+          <div class="bd-mini"><span class="bd-mini-val" data-draw="num" data-fmt="int" data-source="leads_source" data-field="leads" data-base-where="channel=Яндекс Директ">—</span><span class="bd-mini-label">из Яндекс Директа</span></div>
+          <div class="bd-mini"><span class="bd-mini-val" data-draw="num" data-fmt="share" data-source="source_share" data-field="share" data-base-where="channel=Яндекс Директ">—</span><span class="bd-mini-label">доля Директа</span></div>
+        </div>
+        <button class="bd-link" data-goto="leads">Подробнее по услугам и источникам</button>
+      </article>
+    </div>
+  </section>
+
+  <!-- Кампании -->
+  <section class="bd-page" id="campaigns" data-page="campaigns" role="tabpanel" aria-labelledby="tab-campaigns" hidden>
+    <article class="bd-card" id="card-campaigns">
+      <div class="bd-card-head">
+        <h2>Кампании: <span data-draw="text" data-source="totals" data-field="dates">—</span></h2>
+        <p class="bd-card-note">Данные кабинета Директа. Недельный бюджет всех кампаний — <span data-draw="num" data-fmt="rub0" data-source="totals" data-field="budget_week">—</span></p>
+      </div>
+      <div class="bd-tablewrap">
+        <table class="bd-table" data-source="campaigns" data-row-key="period,name">
+          <thead>
+            <tr>
+              <th data-field="name">Кампания</th>
+              <th data-field="status">Статус</th>
+              <th data-field="strategy">Стратегия</th>
+              <th data-field="budget_week">Бюджет в неделю, ₽</th>
+              <th data-field="spend">Расход, ₽</th>
+              <th data-field="impressions">Показы</th>
+              <th data-field="clicks">Клики</th>
+              <th data-field="ctr">CTR, %</th>
+              <th data-field="cpc">CPC, ₽</th>
+              <th data-field="conversions">Конверсии</th>
+              <th data-field="cpa">CPA, ₽</th>
+              <th data-field="cr">Конверсия, %</th>
+            </tr>
+          </thead>
+          <tbody data-draw="camp-rows"></tbody>
+        </table>
+      </div>
+      <ul class="bd-notes" data-period="2026-10">
+        <li>ЕПК «Проф. чистка зубов» и ЕПК «Виниры» запущены 4 ноября, поэтому в октябре по ним нет данных.</li>
+        <li>Строка «Гнатология» взята из PDF-отчёта: 5 показов без кликов. В кабинете на скриншоте этой кампании нет, поэтому в итоге кабинета показов на 5 меньше, чем в отчёте.</li>
+        <li>Отказы не учитываются. Доход, ДРР и ROI не показаны: в кабинете они считаются по ценности целей Метрики, а не по реальной выручке.</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- Заявки -->
+  <section class="bd-page" id="leads" data-page="leads" role="tabpanel" aria-labelledby="tab-leads" hidden>
+    <div class="bd-kpis">
+      <div class="bd-kpi"><span class="bd-kpi-label">Заявки</span><span class="bd-kpi-val" data-draw="num" data-fmt="int" data-source="leads_total" data-field="leads">—</span><span class="bd-kpi-note">через формы сайта</span></div>
+      <div class="bd-kpi"><span class="bd-kpi-label">Яндекс Директ</span><span class="bd-kpi-val" data-draw="num" data-fmt="int" data-source="leads_source" data-field="leads" data-base-where="channel=Яндекс Директ">—</span><span class="bd-kpi-note">рекламные кампании</span></div>
+      <div class="bd-kpi"><span class="bd-kpi-label">Яндекс Карты</span><span class="bd-kpi-val" data-draw="num" data-fmt="int" data-source="leads_source" data-field="leads" data-base-where="channel=Яндекс Карты">—</span><span class="bd-kpi-note">переход из карточки</span></div>
+      <div class="bd-kpi"><span class="bd-kpi-label">Google Карты</span><span class="bd-kpi-val" data-draw="num" data-fmt="int" data-source="leads_source" data-field="leads" data-base-where="channel=Google Карты">—</span><span class="bd-kpi-note">переход из карточки</span></div>
+    </div>
+    <div class="bd-grid">
+      <article class="bd-card" id="card-service">
+        <div class="bd-card-head">
+          <h2>По услугам</h2>
+          <p class="bd-card-note">Заявки из форм сайта и их доля от всех заявок периода</p>
+        </div>
+        <div class="bd-chart" data-draw="bars" data-source="service_share" data-key="service">—</div>
+      </article>
+      <article class="bd-card" id="card-source">
+        <div class="bd-card-head">
+          <h2>По источникам</h2>
+          <p class="bd-card-note">Откуда пришёл человек, оставивший заявку</p>
+        </div>
+        <div class="bd-chart" data-draw="bars" data-source="source_share" data-key="channel">—</div>
+      </article>
+    </div>
+    <ul class="bd-notes">
+      <li>Конверсии Директа считаются по целям Метрики и не равны числу заявок из форм: цели могут включать другие действия.</li>
+      <li data-period="2026-10">В октябре из выгрузки исключены 2 тестовые заявки и 3 заявки за 1–2 ноября.</li>
+    </ul>
+  </section>
+
+  <!-- Работы -->
+  <section class="bd-page" id="works" data-page="works" role="tabpanel" aria-labelledby="tab-works" hidden>
+    <div class="bd-block" data-period="2026-10">
+    <h2 class="bd-h2">Работы по сайту за октябрь</h2>
+    <div class="bd-works">
+      <div class="bd-work"><h3>Лендинг «Профессиональная чистка зубов»</h3><p>Новая страница /cleaning: комплекс профгигиены за 6 800 ₽ вместо 8 900 ₽, каппа с укрепляющим гелем в подарок, консультация терапевта.</p></div>
+      <div class="bd-work"><h3>Запись через всплывающую форму</h3><p>Кнопки записи на странице чистки открывают общую форму записи сайта во всплывающем окне.</p></div>
+      <div class="bd-work"><h3>Страница «Виниры»</h3><p>Обновили страницу: кейсы доктора Филиппова до и после, этапы лечения, слайдер «до и после», блок о стоимости.</p></div>
+      <div class="bd-work"><h3>Анкета на странице «Гнатология»</h3><p>Добавили анкету о симптомах ВНЧС и бруксизме на страницу гнатологии.</p></div>
+    </div>
+    </div>
+    <h2 class="bd-h2">Структура рекламных кампаний</h2>
+    <div class="bd-works">
+      <div class="bd-work"><span class="bd-pill is-new">Новая, с 04.11</span><h3>ЕПК — проф. чистка зубов</h3><p>Трафик ведёт на лендинг «Профессиональная чистка зубов». Стратегия — целевая доля рекламных расходов.</p></div>
+      <div class="bd-work"><span class="bd-pill is-new">Новая, с 04.11</span><h3>ЕПК — виниры</h3><p>Трафик ведёт на обновлённую страницу «Виниры». Стратегия — целевая доля рекламных расходов.</p></div>
+      <div class="bd-work"><span class="bd-pill is-on">Активна</span><h3>Элайнеры</h3><p>Трафик ведёт на специализированную посадочную по элайнерам. Оптимизация конверсий.</p></div>
+      <div class="bd-work"><span class="bd-pill is-on">Активна</span><h3>Имплантация</h3><p>Отдельное направление продвижения имплантации. Оптимизация конверсий.</p></div>
+      <div class="bd-work"><span class="bd-pill is-off">Остановлена</span><h3>Общая стоматология</h3><p>Кампания остановлена. Октябрьские результаты — на вкладке «Кампании».</p></div>
+      <div class="bd-work"><span class="bd-pill is-off">Остановлена</span><h3>Гнатология</h3><p>Кампания остановлена, в октябре были единичные показы без кликов.</p></div>
+      <div class="bd-work"><span class="bd-pill is-off">Отключена</span><h3>ЧЛХ</h3><p>Направление челюстно-лицевой хирургии отключено, показов в октябре не было.</p></div>
+    </div>
+  </section>
+</div>
+
+<script>
+  window.bdFmt = (() => {
+    const nf = (o) => new Intl.NumberFormat('ru-RU', o);
+    const f2 = nf({ minimumFractionDigits: 2, maximumFractionDigits: 2 }), f0 = nf({ maximumFractionDigits: 0 }), s1 = nf({ style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    return {
+      rub: (v) => f2.format(v) + '\u00a0₽',
+      rub0: (v) => f0.format(v) + '\u00a0₽',
+      int: (v) => f0.format(v),
+      pct: (v) => f2.format(v) + '\u00a0%',
+      num2: (v) => f2.format(v),
+      share: (v) => s1.format(v),
+    };
+  })();
+  window.bdDefaultPeriod = '2026-10';
+  window.bdPeriod = () => dash.params().period || window.bdDefaultPeriod;
+</script>
+
+<script>
+  dash.calc('direction_share', {
+    title: 'Доли направлений',
+    description: 'Доля каждого направления в расходе и в конверсиях за свой период, только направления с расходом',
+    inputs: ['campaigns'],
+    fn: (campaigns) => {
+      const act = campaigns.filter((c) => Number(c.spend) > 0);
+      const tot = {};
+      act.forEach((c) => {
+        const t = tot[c.period] || (tot[c.period] = { spend: 0, conv: 0 });
+        t.spend += Number(c.spend); t.conv += Number(c.conversions);
+      });
+      return act.map((c) => ({ period: c.period, direction: c.direction, spend: Number(c.spend), conversions: Number(c.conversions), cpa: Number(c.cpa), spend_share: Number(c.spend) / tot[c.period].spend, conv_share: Number(c.conversions) / tot[c.period].conv }));
+    },
+  });
+  dash.calc('leads_total', {
+    title: 'Всего заявок с сайта',
+    description: 'Сумма заявок по всем источникам за каждый период',
+    inputs: ['leads_source'],
+    fn: (leads_source) => {
+      const t = {};
+      leads_source.forEach((r) => { t[r.period] = (t[r.period] || 0) + Number(r.leads); });
+      return Object.keys(t).map((period) => ({ period, leads: t[period] }));
+    },
+  });
+  dash.calc('service_share', {
+    title: 'Заявки по услугам, доли',
+    description: 'Число заявок по услуге и её доля от всех заявок периода',
+    inputs: ['leads_service'],
+    fn: (leads_service) => {
+      const t = {};
+      leads_service.forEach((r) => { t[r.period] = (t[r.period] || 0) + Number(r.leads); });
+      return leads_service.map((r) => ({ period: r.period, service: r.service, leads: Number(r.leads), share: Number(r.leads) / t[r.period] }));
+    },
+  });
+  dash.calc('source_share', {
+    title: 'Заявки по источникам, доли',
+    description: 'Число заявок по источнику и его доля от всех заявок периода',
+    inputs: ['leads_source'],
+    fn: (leads_source) => {
+      const t = {};
+      leads_source.forEach((r) => { t[r.period] = (t[r.period] || 0) + Number(r.leads); });
+      return leads_source.map((r) => ({ period: r.period, channel: r.channel, leads: Number(r.leads), share: Number(r.leads) / t[r.period] }));
+    },
+  });
+</script>
+
+<script>
+  // Вкладки
+  const tabs = () => document.querySelectorAll('.bd-tab');
+  const pages = () => document.querySelectorAll('.bd-page');
+  const show = (name) => {
+    let found = false;
+    pages().forEach((p) => { if (p.dataset.page === name) found = true; });
+    if (!found) return;
+    pages().forEach((p) => { p.hidden = p.dataset.page !== name; });
+    tabs().forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
+    dash.setLink(name);
+  };
+  tabs().forEach((t) => t.addEventListener('click', () => show(t.dataset.tab)));
+  document.querySelectorAll('[data-goto]').forEach((b) => b.addEventListener('click', () => { show(b.dataset.goto); window.scrollTo({ top: 0 }); }));
+  document.querySelectorAll('.bd-sw[data-sw]').forEach((s) => { s.style.background = dash.colors[Number(s.dataset.sw)]; });
+  const start = location.hash.slice(1);
+  if (start) show(start);
+
+  // Блоки, относящиеся к конкретному месяцу
+  dash.onData(() => {
+    const p = window.bdPeriod();
+    document.querySelectorAll('[data-period]').forEach((el) => { el.hidden = el.dataset.period !== p; });
+  });
+</script>
+
+<script>
+  const F = window.bdFmt;
+  const P = window.bdPeriod;
+  const rowsOf = (id) => { const d = dash.data(id); return d.status === 'ok' ? d.data.filter((r) => r.period === P()) : null; };
+  const match = (rows, where) => {
+    if (!where) return rows[0];
+    const pairs = where.split('&').map((p) => p.split('=').map(decodeURIComponent));
+    return rows.find((r) => pairs.every(([k, v]) => String(r[k]) === v));
+  };
+  const mk = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const enc = (v) => encodeURIComponent(v);
+
+  // Выбор периода: месяцы берутся из итогов кабинета
+  dash.draw('period-select', (sel) => {
+    const d = dash.data('totals');
+    const all = d.status === 'ok' ? d.data.slice().sort((a, b) => String(b.period).localeCompare(String(a.period))) : [];
+    sel.replaceChildren(...all.map((r) => new Option(r.label, r.period)));
+    sel.value = P();
+    sel.disabled = all.length < 2;
+    sel.onchange = () => dash.setParams({ period: sel.value });
+  });
+
+  // Текст из данных (даты периода)
+  dash.draw('text', (el) => {
+    const rows = rowsOf(el.dataset.source);
+    const r = rows && rows[0];
+    el.textContent = r && r[el.dataset.field] != null ? String(r[el.dataset.field]) : '—';
+    el.dataset.where = 'period=' + enc(P());
+  });
+
+  // Одиночные числа
+  dash.draw('num', (el) => {
+    const base = el.dataset.baseWhere;
+    el.dataset.where = 'period=' + enc(P()) + (base ? '&' + base : '');
+    const rows = rowsOf(el.dataset.source);
+    const r = rows && match(rows, base);
+    const v = r ? r[el.dataset.field] : null;
+    el.textContent = v == null || v === '' ? '—' : (F[el.dataset.fmt] || String)(Number(v));
+  });
+
+  // Доли расхода и конверсий
+  dash.draw('share', (el) => {
+    const rows = rowsOf('direction_share');
+    if (!rows || !rows.length) { el.textContent = '—'; return; }
+    el.replaceChildren(...rows.map((r) => {
+      const row = mk('div', 'bd-row');
+      const lab = mk('div', 'bd-row-label'); lab.append(mk('span', null, r.direction));
+      row.append(lab);
+      [['spend_share', 0], ['conv_share', 1]].forEach(([k, c]) => {
+        const bar = mk('div', 'bd-bar'); const tr = mk('div', 'bd-track'); const fill = mk('i');
+        fill.style.width = (r[k] * 100) + '%'; fill.style.background = dash.colors[c];
+        tr.append(fill); bar.append(tr, mk('span', 'bd-bar-v', F.share(r[k]))); row.append(bar);
+      });
+      return row;
+    }));
+  });
+
+  // CPA по направлениям
+  dash.draw('cpa', (el) => {
+    const rows = rowsOf('direction_share'), tot = rowsOf('totals');
+    if (!rows || !tot || !rows.length || !tot.length) { el.textContent = '—'; return; }
+    const avg = Number(tot[0].cpa);
+    const max = Math.max(avg, ...rows.map((r) => r.cpa)) * 1.1;
+    const sorted = rows.slice().sort((a, b) => a.cpa - b.cpa);
+    el.replaceChildren(...sorted.map((r) => {
+      const row = mk('div', 'bd-row');
+      const lab = mk('div', 'bd-row-label'); lab.append(mk('span', null, r.direction), mk('em', null, F.int(r.conversions) + ' конв.'));
+      const bar = mk('div', 'bd-bar'); const tr = mk('div', 'bd-track'); const fill = mk('i'); const ref = mk('span', 'bd-ref');
+      fill.style.width = (r.cpa / max * 100) + '%';
+      fill.style.background = r.cpa <= avg ? dash.colors[0] : 'var(--cds-chart-muted)';
+      ref.style.left = (avg / max * 100) + '%';
+      tr.append(fill, ref); bar.append(tr, mk('span', 'bd-bar-v', F.rub(r.cpa)));
+      row.append(lab, bar);
+      return row;
+    }));
+  });
+
+  // Горизонтальные бары заявок
+  dash.draw('bars', (el) => {
+    const rows = rowsOf(el.dataset.source);
+    if (!rows || !rows.length) { el.textContent = '—'; return; }
+    const key = el.dataset.key;
+    const max = Math.max(...rows.map((r) => r.leads));
+    el.replaceChildren(...rows.map((r) => {
+      const row = mk('div', 'bd-row');
+      const lab = mk('div', 'bd-row-label'); lab.append(mk('span', null, r[key]), mk('em', null, F.share(r.share)));
+      const bar = mk('div', 'bd-bar'); const tr = mk('div', 'bd-track'); const fill = mk('i');
+      fill.style.width = (r.leads / max * 100) + '%'; fill.style.background = dash.colors[0];
+      tr.append(fill); bar.append(tr, mk('span', 'bd-bar-v', F.int(r.leads)));
+      row.append(lab, bar);
+      return row;
+    }));
+  });
+
+  // Таблица кампаний
+  dash.draw('camp-rows', (tb) => {
+    const rows = rowsOf('campaigns');
+    if (!rows) { tb.replaceChildren(); return; }
+    const n = (v, f) => (v == null || v === '' ? '–' : f(Number(v)));
+    const cls = (s) => (s === 'Идут показы' ? 'is-on' : s.startsWith('Старт') ? 'is-new' : 'is-off');
+    tb.replaceChildren(...rows.map((r) => {
+      const tr = mk('tr');
+      tr.dataset.key = enc(r.period) + ',' + enc(r.name);
+      const st = mk('td'); st.append(mk('span', 'bd-pill ' + cls(r.status), r.status));
+      tr.append(
+        mk('td', null, r.name), st,
+        mk('td', null, r.strategy == null ? '–' : r.strategy),
+        mk('td', null, n(r.budget_week, F.int)),
+        mk('td', null, n(r.spend, F.num2)),
+        mk('td', null, n(r.impressions, F.int)),
+        mk('td', null, n(r.clicks, F.int)),
+        mk('td', null, n(r.ctr, F.num2)),
+        mk('td', null, n(r.cpc, F.num2)),
+        mk('td', null, n(r.conversions, F.int)),
+        mk('td', null, n(r.cpa, F.num2)),
+        mk('td', null, n(r.cr, F.num2)),
+      );
+      return tr;
+    }));
+  });
+</script>
+
+</div>
+</body>
+</html>

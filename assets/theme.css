@@ -1,0 +1,28 @@
+:root {
+  --color-bg: #f6f7fa; --color-panel: #ffffff; --color-fg: #293244; --color-fg-muted: #667089;
+  --color-border-line: #e1e4ec; --color-ok: #2f7d4f; --color-warn: #9a6200; --color-bad: #b3261e;
+  --chart-1: #677290; --chart-2: #c9a27a; --chart-3: #8fa3b8; --chart-4: #b5899f;
+  --cds-chart-muted: #c3c8d4; --cds-chart-grid: #eceef3; --cds-chart-reference: #293244;
+  --font-anthropic-sans: "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-anthropic-serif: "PT Serif", Georgia, "Times New Roman", serif;
+  --cds-font-size-caption: 0.8125rem; --cds-font-size-body: 0.9375rem; --cds-font-size-heading: 1.0625rem; --cds-font-size-title: 1.75rem;
+  --cds-font-weight-medium: 500;
+  --cds-gap-xs: 4px; --cds-gap-sm: 8px; --cds-gap-md: 16px; --cds-gap-lg: 24px; --cds-gap-xl: 36px;
+  --cds-pad-xs: 4px; --cds-pad-sm: 8px; --cds-pad-md: 14px; --cds-pad-lg: 20px;
+  --cds-radius: 8px; --cds-dur-slow: .3s;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #12151c; --color-panel: #1b1f29; --color-fg: #e6e8ee; --color-fg-muted: #9aa2b5;
+    --color-border-line: #2c3240; --color-ok: #6fcf97; --color-warn: #e8b04a; --color-bad: #f2867e;
+    --chart-1: #9aa5c6; --chart-2: #d9b48c; --chart-3: #7f93a8; --chart-4: #c79bb1;
+    --cds-chart-muted: #4a5164; --cds-chart-grid: #262b37; --cds-chart-reference: #e6e8ee;
+    color-scheme: dark;
+  }
+}
+html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-family: var(--font-anthropic-sans); font-size: 15px; }
+.wrap { max-width: 1240px; margin-inline: auto; padding-block: 32px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.dash-select { font: inherit; font-size: var(--cds-font-size-body); color: var(--color-fg); background-color: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 6px 10px; }
+.dash-select:disabled { opacity: 1; }
+[hidden] { display: none !important; }
