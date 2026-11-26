@@ -1,0 +1,519 @@
+<!-- BUDOVSKY · T123 · Квиз «зуб + симптом» для главной · v2 26.11.2026 -->
+<style>
+@font-face{font-family:BQObject;src:url('https://static.tildacdn.com/tild3738-3763-4161-a664-393338666139/ObjectSans-Regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:BQObject;src:url('https://static.tildacdn.com/tild6439-3236-4432-a331-666162613265/ObjectSans-Heavy.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
+#budovsky-quiz{--bq-brand:#677290;--bq-ink:#293244;--bq-deep:#1f2635;--bq-muted:#586174;--bq-soft:#f1f3f6;--bq-line:#dce0e8;--bq-ivory:#f4f1ec;font-family:BQObject,Arial,sans-serif;font-size:16px;line-height:1.5;color:var(--bq-ink);background:#fff;text-align:left;-webkit-font-smoothing:antialiased;padding:72px 20px}
+#budovsky-quiz *,#budovsky-quiz *:before,#budovsky-quiz *:after{box-sizing:border-box}
+:where(#budovsky-quiz) :where(h2,h3,p){margin:0}
+.bq-wrap{max-width:1160px;margin:0 auto}
+.bq-kicker{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--bq-brand);margin-bottom:14px}
+.bq-title{font-size:44px;line-height:1.1;font-weight:400;color:var(--bq-deep);letter-spacing:-.01em}
+.bq-lead{font-size:18px;color:var(--bq-muted);max-width:660px;margin-top:16px}
+.bq-steps{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 24px;padding:0;list-style:none}
+.bq-steps li{font-size:14px;padding:8px 14px;border-radius:999px;background:var(--bq-soft);color:var(--bq-muted)}
+.bq-steps li.is-on{background:var(--bq-ink);color:#fff}
+.bq-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:28px;align-items:start}
+.bq-card{background:var(--bq-soft);border-radius:24px;padding:28px}
+.bq-h3{font-size:22px;line-height:1.25;font-weight:700;color:var(--bq-deep)}
+.bq-hint{font-size:15px;color:var(--bq-muted);margin-top:8px}
+/* схема */
+.bq-chart{position:relative;max-width:440px;margin:16px auto 0}
+#bq-img{mix-blend-mode:multiply}
+.bq-svg{display:block;width:100%;height:auto;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.bq-t{cursor:pointer;outline:none}
+.bq-t circle{fill:rgba(103,114,144,0);stroke:rgba(103,114,144,0);stroke-width:5;transition:fill .15s,stroke .15s}
+.bq-t:hover circle{stroke:rgba(103,114,144,.55)}
+.bq-t:focus-visible circle{stroke:var(--bq-deep)}
+.bq-t.is-on circle{fill:rgba(103,114,144,.55);stroke:var(--bq-brand)}
+.bq-n{font:700 24px BQObject,Arial,sans-serif;fill:#8b93a6;text-anchor:middle;dominant-baseline:central;pointer-events:none;paint-order:stroke;stroke:#fff;stroke-width:6px;stroke-linejoin:round}
+.bq-n.is-on{fill:var(--bq-deep)}
+.bq-jaw{font:400 22px BQObject,Arial,sans-serif;letter-spacing:.14em;fill:#9aa2b4;text-anchor:middle;text-transform:uppercase}
+.bq-side{position:absolute;top:0;font-size:12px;color:var(--bq-muted);background:#fff;border-radius:999px;padding:3px 10px}
+.bq-info{min-height:22px;margin-top:10px;font-size:14px;color:var(--bq-ink);text-align:center}
+.bq-zones{margin-top:16px;border-top:1px solid var(--bq-line);padding-top:16px}
+.bq-zones p{font-size:14px;color:var(--bq-muted);margin-bottom:10px}
+.bq-chips{display:flex;flex-wrap:wrap;gap:8px}
+.bq-chip{border:1.5px solid transparent;background:#fff;color:var(--bq-ink);border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer;line-height:1.2;transition:background .15s,border-color .15s}
+.bq-chip:hover{border-color:var(--bq-line)}
+.bq-chip.is-on{background:var(--bq-ink);color:#fff}
+.bq-picked{margin-top:12px;font-size:14px;color:var(--bq-muted)}
+.bq-picked button{border:0;background:none;color:var(--bq-brand);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer;padding:0;margin-left:6px}
+/* симптомы */
+.bq-sym{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.bq-opt{position:relative;display:flex;gap:12px;align-items:flex-start;background:var(--bq-soft);border:1.5px solid transparent;border-radius:16px;padding:13px 14px;cursor:pointer;font-size:15px;line-height:1.3;transition:border-color .15s,background .15s}
+.bq-opt:hover{border-color:var(--bq-line)}
+.bq-opt input{position:absolute;opacity:0;pointer-events:none}
+.bq-box{flex:0 0 20px;height:20px;border-radius:6px;border:1.5px solid #b7bfcd;background:#fff;margin-top:1px;position:relative}
+.bq-opt input:checked~.bq-box{background:var(--bq-brand);border-color:var(--bq-brand)}
+.bq-opt input:checked~.bq-box:after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.bq-opt input:focus-visible~.bq-box{outline:2px solid var(--bq-deep);outline-offset:2px}
+.bq-opt.is-on{background:#fff;border-color:var(--bq-brand)}
+.bq-opt small{display:block;font-size:13px;color:var(--bq-muted);margin-top:3px}
+.bq-opt.is-wide{grid-column:1/-1;background:var(--bq-ivory)}
+.bq-btn{display:inline-flex;justify-content:center;align-items:center;width:100%;min-height:56px;margin-top:18px;border:0;border-radius:999px;background:var(--bq-ink);color:#fff;font:inherit;font-size:16px;font-weight:700;cursor:pointer;padding:0 24px;transition:background .15s}
+.bq-btn:hover{background:var(--bq-deep)}
+.bq-btn:disabled{opacity:.5;cursor:default}
+.bq-link{display:block;margin:12px auto 0;border:0;background:none;color:var(--bq-muted);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer}
+.bq-note{font-size:13px;color:var(--bq-muted);margin-top:10px;text-align:center}
+.bq-back{display:inline-flex;align-items:center;gap:8px;border:0;background:none;color:var(--bq-muted);font:inherit;font-size:14px;cursor:pointer;padding:0;margin-bottom:16px}
+.bq-back:before{content:"";width:8px;height:8px;border:solid currentColor;border-width:0 0 1.5px 1.5px;transform:rotate(45deg)}
+/* слой «прикус» */
+.bq-why{background:var(--bq-ivory);border-radius:16px;padding:16px 18px;margin-top:14px;font-size:15px;color:var(--bq-ink)}
+.bq-q{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--bq-line)}
+.bq-q:last-child{border-bottom:0}
+.bq-q span{font-size:15px;line-height:1.35}
+.bq-seg{display:flex;flex:0 0 auto;background:var(--bq-soft);border-radius:999px;padding:3px}
+.bq-seg button{border:0;background:none;font:inherit;font-size:14px;color:var(--bq-muted);padding:7px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.bq-seg button.is-on{background:var(--bq-ink);color:#fff}
+/* результат */
+.bq-sum{font-size:14px;color:var(--bq-muted);margin-top:6px}
+.bq-res{display:grid;gap:10px;margin-top:18px}
+.bq-srv{background:var(--bq-soft);border-radius:16px;padding:16px 18px}
+.bq-srv.is-first{background:#fff;border:1.5px solid var(--bq-line)}
+.bq-srv.is-key{background:var(--bq-ivory)}
+.bq-srv-top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.bq-srv b{font-size:17px;color:var(--bq-deep)}
+.bq-srv a{font-size:13px;color:var(--bq-brand);white-space:nowrap;text-decoration:none;border-bottom:1px solid currentColor}
+.bq-srv p{font-size:14px;color:var(--bq-muted);margin-top:4px}
+.bq-price{font-size:14px;color:var(--bq-deep);font-weight:700;margin-top:8px}
+.bq-doc{font-size:13px;color:var(--bq-ink);margin-top:4px}
+.bq-tag{display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--bq-brand);margin-bottom:4px}
+.bq-fig{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;margin-top:12px}
+.bq-fig-img{position:relative;border-radius:12px;overflow:hidden;background:#fff}
+.bq-fig-img img{display:block;width:100%;height:auto}
+.bq-fig-img i{position:absolute;left:50%;top:31%;width:30%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);border:2px solid #c0392b;animation:bqPulse 1.8s ease-out infinite}
+@keyframes bqPulse{0%{opacity:.9;transform:translate(-50%,-50%) scale(.6)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
+.bq-fig small{font-size:13px;color:var(--bq-muted);line-height:1.4}
+.bq-soft-note{font-size:14px;color:var(--bq-muted);background:var(--bq-soft);border-radius:14px;padding:12px 14px}
+.bq-pricenote{font-size:12.5px;color:var(--bq-muted);margin-top:2px}
+/* форма */
+.bq-form{background:var(--bq-ink);color:#fff;border-radius:20px;padding:22px;margin-top:16px}
+.bq-form .bq-h3{color:#fff;font-size:20px}
+.bq-form p{font-size:14px;color:#c9cfdc;margin-top:6px}
+.bq-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.bq-in{width:100%;height:52px;border-radius:14px;border:1.5px solid transparent;background:#fff;color:var(--bq-ink);font:inherit;font-size:16px;padding:0 16px;outline:none}
+.bq-in:focus{border-color:#9aa6c6}
+.bq-in.is-err{border-color:#e08a7d}
+.bq-lbl{font-size:13px;color:#c9cfdc;margin:14px 0 8px}
+.bq-form .bq-chip{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.18);font-size:14px}
+.bq-form .bq-chip.is-on{background:#fff;color:var(--bq-ink);border-color:#fff}
+.bq-agree{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:#c9cfdc;margin-top:16px;cursor:pointer}
+.bq-agree input{margin:2px 0 0;accent-color:#fff;width:16px;height:16px;flex:0 0 16px}
+.bq-agree a{color:#fff}
+.bq-form .bq-btn{background:#fff;color:var(--bq-ink)}
+.bq-form .bq-btn:hover{background:var(--bq-ivory)}
+.bq-err{font-size:13px;color:#f2b2a8;margin-top:8px}
+/* спасибо */
+.bq-ok{background:var(--bq-soft);border-radius:20px;padding:24px}
+.bq-ok .bq-h3{font-size:24px}
+.bq-ok p{font-size:15px;color:var(--bq-muted);margin-top:8px}
+.bq-video{position:relative;width:100%;max-width:300px;aspect-ratio:9/16;margin:18px auto 0;border-radius:18px;overflow:hidden;background:#1f2635}
+.bq-video iframe,.bq-video img{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
+.bq-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border:0;background:rgba(31,38,53,.25);cursor:pointer}
+.bq-play:before{content:"";width:64px;height:64px;border-radius:50%;background:#fff}
+.bq-play:after{content:"";position:absolute;border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent var(--bq-ink);margin-left:5px}
+.bq-warn{margin-top:28px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#9aa2b4;text-align:center}
+.bq-hide{display:none!important}
+@media (max-width:980px){.bq-grid{grid-template-columns:1fr}.bq-chart{max-width:400px}}
+@media (max-width:640px){
+#budovsky-quiz{padding:48px 16px}
+.bq-title{font-size:30px}
+.bq-lead{font-size:16px}
+.bq-card{padding:20px 14px;border-radius:20px}
+.bq-h3{font-size:19px}
+.bq-sym{grid-template-columns:1fr;gap:8px}
+.bq-fields{grid-template-columns:1fr}
+.bq-steps li{font-size:13px;padding:7px 12px}
+.bq-q{flex-direction:column;align-items:flex-start;gap:8px}
+.bq-fig{grid-template-columns:80px 1fr}
+}
+</style>
+
+<section id="budovsky-quiz" aria-labelledby="bq-title">
+<div class="bq-wrap">
+  <div class="bq-kicker">Подбор лечения за минуту</div>
+  <h2 class="bq-title" id="bq-title">Что вас беспокоит?</h2>
+  <p class="bq-lead">Отметьте зуб на схеме и выберите, что чувствуете. Покажем, какое лечение обычно подходит в такой ситуации и сколько оно стоит. Точный план врач составит после осмотра.</p>
+  <ol class="bq-steps" aria-hidden="true">
+    <li class="is-on" data-step="1">1. Где беспокоит</li>
+    <li class="is-on" data-step="2">2. Что чувствуете</li>
+    <li data-step="3">3. Решение</li>
+  </ol>
+
+  <div class="bq-grid">
+    <div class="bq-card">
+      <h3 class="bq-h3">Где беспокоит?</h3>
+      <p class="bq-hint">Нажмите на зуб, можно на несколько. Не уверены, какой именно, — выберите зону ниже или пропустите этот шаг.</p>
+      <div class="bq-chart">
+        <span class="bq-side" style="left:0">справа</span><span class="bq-side" style="right:0">слева</span>
+        <svg class="bq-svg" id="bq-svg" viewBox="0 0 840 1000" role="group" aria-label="Схема зубов, вид со стороны пациента. Нажмите на зуб, чтобы отметить его">
+          <image id="bq-img" x="0" y="0" width="840" height="1000" href=""></image>
+        </svg>
+      </div>
+      <div class="bq-info" id="bq-info" aria-live="polite"></div>
+      <div class="bq-zones">
+        <p>Или выберите зону:</p>
+        <div class="bq-chips" id="bq-zones"></div>
+      </div>
+      <div class="bq-picked" id="bq-picked"></div>
+    </div>
+
+    <div class="bq-panel">
+      <!-- симптомы -->
+      <div id="bq-s2">
+        <h3 class="bq-h3">Что чувствуете?</h3>
+        <p class="bq-hint">Отметьте всё, что подходит.</p>
+        <div class="bq-sym" id="bq-sym"></div>
+        <button class="bq-btn" id="bq-go" type="button">Показать решение</button>
+        <p class="bq-note">Телефон не нужен, сначала покажем варианты лечения</p>
+      </div>
+
+      <!-- слой «прикус» -->
+      <div id="bq-s25" class="bq-hide">
+        <button class="bq-back" type="button" data-back="s2">Назад</button>
+        <h3 class="bq-h3">Ещё 4 коротких вопроса</h3>
+        <div class="bq-why">Иногда зуб болит, скалывается или стирается не сам по себе, а из-за того, как смыкаются челюсти. Лечить такой зуб без учёта прикуса — значит переделывать работу через пару лет. Поэтому врачи клиники начинают с этих вопросов.</div>
+        <div id="bq-bite"></div>
+        <button class="bq-btn" id="bq-go2" type="button">Показать решение</button>
+        <button class="bq-link" id="bq-skip" type="button">Пропустить вопросы</button>
+      </div>
+
+      <!-- результат -->
+      <div id="bq-s3" class="bq-hide">
+        <button class="bq-back" type="button" data-back="s2" id="bq-back3">Изменить ответы</button>
+        <h3 class="bq-h3">Вам может подойти</h3>
+        <p class="bq-sum" id="bq-sum"></p>
+        <div class="bq-res" id="bq-res"></div>
+
+        <form class="bq-form" id="bq-form" novalidate>
+          <h3 class="bq-h3">Получите план лечения и расчёт стоимости</h3>
+          <p>Администратор свяжется с вами, ответит на вопросы и подберёт время консультации. Ваши ответы врач увидит заранее.</p>
+          <div class="bq-fields">
+            <input class="bq-in" id="bq-name" type="text" autocomplete="given-name" placeholder="Ваше имя" aria-label="Ваше имя">
+            <input class="bq-in" id="bq-phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" aria-label="Телефон">
+          </div>
+          <div class="bq-lbl">Как удобнее связаться</div>
+          <div class="bq-chips" id="bq-how"></div>
+          <div class="bq-lbl">Когда</div>
+          <div class="bq-chips" id="bq-when"></div>
+          <label class="bq-agree"><input type="checkbox" id="bq-agree"> <span>Даю согласие на <a href="/privacy" target="_blank" rel="noopener">обработку персональных данных</a></span></label>
+          <button class="bq-btn" id="bq-send" type="submit">Получить план и расчёт</button>
+          <div class="bq-err" id="bq-err" role="alert"></div>
+        </form>
+
+        <div class="bq-ok bq-hide" id="bq-ok" role="status">
+          <h3 class="bq-h3" id="bq-ok-title">Спасибо!</h3>
+          <p>Администратор свяжется с вами, чтобы подобрать удобное время. А пока покажем, где вас будут лечить.</p>
+          <div class="bq-video" id="bq-video"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="bq-warn">Подбор носит справочный характер и не заменяет осмотр. Имеются противопоказания, необходима консультация специалиста</p>
+</div>
+</section>
+
+<script>
+(function(){
+/* ===================== НАСТРОЙКИ ===================== */
+var CFG = {
+  /* картинки: загрузите в Tilda и вставьте ссылки static.tildacdn.com */
+  imgJaws:  'https://static.tildacdn.com/tila3565-6132-4533-b266-303463376634/jaws-840x1000.jpg',
+  imgTooth: 'https://static.tildacdn.com/tila3666-6639-4234-b761-633238323766/tooth-section-640.jpg',
+  /* видео после отправки: ссылка вида https://rutube.ru/play/embed/XXXXXXXX и обложка 720×1280 */
+  rutube:      '',
+  videoPoster: '',
+  mp4: '',  /* запасной вариант: прямая ссылка на mp4 */
+  /* id блока обычной формы Tilda на этой странице, например '#rec1234567890' */
+  tildaForm: '',
+  /* имена переменных полей в этой форме Tilda */
+  fields: { name:'Name', phone:'Phone', teeth:'Зубы', symptoms:'Беспокоит', bite:'Прикус', services:'Показали', contact:'Связаться' },
+  /* номер счётчика Метрики; если пусто, берётся счётчик Tilda */
+  metrika: '',
+  fallbackPopup: '#popup:stepform',
+  /* ВРЕМЕННО для теста: false — можно отправить без телефона. Перед запуском поставить true */
+  phoneRequired: false
+};
+
+var root = document.getElementById('budovsky-quiz');
+if (!root || root.getAttribute('data-ready')) return;
+root.setAttribute('data-ready', '1');
+var $ = function(id){ return document.getElementById(id); };
+function h(tag, cls, html){ var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+
+/* ===================== МЕТРИКА ===================== */
+var sent = {};
+function goal(name){
+  if (sent[name]) return; sent[name] = 1;
+  var id = CFG.metrika || window.mainMetrikaId || '';
+  try { if (window.ym && id) window.ym(id, 'reachGoal', name); } catch(e){}
+}
+
+/* ===================== УСЛУГИ (цены — прайс клиники, «от») ===================== */
+var SRV = {
+  consult: { t:'Консультация и план лечения', d:'Осмотр и сканирование. Врач объяснит, что происходит, и составит общий план и смету.', price:'Консультация главного врача — 3 500 ₽', doc:'Главный врач Филиппов Денис Олегович', url:'' },
+  gnato:   { t:'Консультация гнатолога', d:'Проверим, как работают сустав и мышцы и как смыкаются зубы. Если причина в прикусе, сначала разберёмся с ней.', price:'12 000 ₽', doc:'Будовский Александр Иванович, к.м.н., гнатолог', url:'/gnatologia' },
+  endo:    { t:'Лечение каналов', d:'Если зуб болит сам по себе или ноет ночью, чаще всего воспалён нерв внутри зуба. Его лечат, чтобы сохранить зуб.', price:'Обработка канала — от 4 070 ₽, пломбирование — от 6 900 ₽', doc:'Эндодонтист Неронов Артём Александрович', url:'/terapiya', fig:true },
+  therapy: { t:'Лечение кариеса и пломба', d:'Восстановим зуб пломбой, заменим выпавшую или старую.', price:'от 6 400 ₽', doc:'Терапевты Попадиус Анна Анатольевна, Кузьмина Екатерина Александровна', url:'/terapiya' },
+  restore: { t:'Эстетическая реставрация', d:'Восстановим форму и цвет скола или потемневшего зуба.', price:'от 12 000 ₽', doc:'Терапевты клиники', url:'/terapiya' },
+  crown:   { t:'Коронка', d:'Когда разрушена большая часть зуба, его надёжнее закрыть коронкой.', price:'от 19 040 ₽, безметалловая — от 38 640 ₽', doc:'Стоматолог-ортопед Филиппов Денис Олегович', url:'/ortopedia' },
+  implant: { t:'Имплантация', d:'Имплант и коронка у одного врача: от плана до готового зуба.', price:'Имплант Osstem/Dentium (Корея) — от 41 210 ₽, коронка на импланте — от 25 200 ₽', doc:'Филиппов Денис Олегович, хирург и ортопед', url:'' },
+  surgery: { t:'Удаление зуба', d:'Аккуратное удаление, в том числе зубов мудрости. Обсудим, чем восстановить зуб после.', price:'от 5 500 ₽', doc:'Хирург Филиппов Денис Олегович', url:'' },
+  perio:   { t:'Лечение дёсен', d:'Кровоточивость и подвижность зубов чаще всего связаны с воспалением дёсен. Его лечат до другой работы.', price:'Консультация пародонтолога с диагностикой — 3 500 ₽', doc:'', url:'' },
+  hygiene: { t:'Профессиональная гигиена', d:'Снимем камень и налёт, отполируем, покажем, как ухаживать дома.', price:'6 800 ₽', doc:'', url:'/cleaning' },
+  whiten:  { t:'Отбеливание', d:'Если потемнела вся улыбка, а не один зуб, подойдёт отбеливание после гигиены.', price:'от 27 990 ₽', doc:'', url:'' },
+  damon:   { t:'Брекеты Damon', d:'Самолигирующие брекеты для выравнивания зубов и исправления прикуса у взрослых.', price:'от 90 000 ₽ за челюсть, консультация ортодонта — 3 000 ₽', doc:'Ортодонт-гнатолог Годявин Роман Александрович', url:'/orthodontics' }
+};
+
+/* ===================== СИМПТОМЫ → УСЛУГИ ===================== */
+/* tooth: true — симптом про зубы, после него задаём вопросы про прикус */
+var SYM = [
+  { id:'pain',    t:'Болит зуб',                s:'ноет, реагирует на горячее',  srv:['endo','therapy'],    tooth:1 },
+  { id:'filling', t:'Выпала пломба',             s:'или видна дырка',             srv:['therapy','crown'],   tooth:1 },
+  { id:'chip',    t:'Скололся или сломался зуб', s:'',                            srv:['restore','crown'],   tooth:1 },
+  { id:'dark',    t:'Зуб потемнел',              s:'изменился цвет',              srv:['restore','whiten','endo'], tooth:1 },
+  { id:'sens',    t:'Чувствительность',          s:'к холодному и сладкому',      srv:['therapy','hygiene'], tooth:1 },
+  { id:'plaque',  t:'Налёт, камень, запах',      s:'',                            srv:['hygiene','perio'] },
+  { id:'gums',    t:'Кровоточат дёсны',          s:'при чистке или еде',          srv:['perio','hygiene'] },
+  { id:'loose',   t:'Зуб шатается',              s:'',                            srv:['perio','implant'],   tooth:1 },
+  { id:'missing', t:'Нет зуба, нужен имплант',    s:'',                            srv:['implant'] },
+  { id:'remove',  t:'Нужно удалить зуб',         s:'в том числе зуб мудрости',    srv:['surgery','implant'] },
+  { id:'bite',    t:'Неровные зубы, прикус',     s:'',                            srv:['damon','gnato'],     gn:1 },
+  { id:'jaw',     t:'Щёлкает или болит челюсть',  s:'головные боли, зажимы',       srv:['gnato'],             gn:1 },
+  { id:'wear',    t:'Зубы стираются',            s:'скрип по ночам, сколы',       srv:['gnato','crown'],     gn:1 },
+  { id:'check',   t:'Ничего не болит, хочу провериться', s:'осмотр и чистка',     srv:['hygiene'],           wide:1 }
+];
+
+var BITE = [
+  { id:'click',  t:'Щёлкает или хрустит челюсть, когда открываете рот' },
+  { id:'head',   t:'По утрам болит голова или шея, устают мышцы лица' },
+  { id:'rechip', t:'Пломбы, коронки или зубы скалываются повторно' },
+  { id:'clench', t:'Сжимаете или скрипите зубами — замечаете сами или вам говорили' }
+];
+
+/* ===================== СХЕМА ЗУБОВ ===================== */
+/* [номер по FDI, x, y] в координатах картинки 840×1000; зубов мудрости на картинке нет */
+var TEETH = [[17,95,407],[16,125,317],[15,162,234],[14,203,170],[13,255,117],[12,315,90],[11,382,74],[21,455,74],[22,520,89],[23,587,110],[24,640,165],[25,681,232],[26,719,314],[27,749,405],
+             [47,101,589],[46,139,682],[45,180,755],[44,211,819],[43,262,858],[42,318,888],[41,383,902],[31,451,902],[32,511,890],[33,565,860],[34,620,820],[35,658,755],[36,700,682],[37,735,587]];
+var RAD = {1:31,2:28,3:31,4:32,5:34,6:44,7:44};
+var TYPE = {1:'центральный резец',2:'боковой резец',3:'клык',4:'премоляр (малый коренной)',5:'премоляр (малый коренной)',6:'моляр (жевательный)',7:'моляр (жевательный)'};
+var QN = {1:'верх справа',2:'верх слева',3:'низ слева',4:'низ справа'};
+var ZONES = [
+  { id:'ur', t:'Верх справа' }, { id:'ul', t:'Верх слева' }, { id:'lr', t:'Низ справа' }, { id:'ll', t:'Низ слева' },
+  { id:'front', t:'Передние зубы' }, { id:'wisdom', t:'Зуб мудрости' }, { id:'unknown', t:'Не знаю, какой' }
+];
+var NS = 'http://www.w3.org/2000/svg', svg = $('bq-svg');
+$('bq-img').setAttribute('href', CFG.imgJaws);
+function el(n, a, p){ var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+var picked = {}, zones = {};
+TEETH.forEach(function(t){
+  var f = t[0], q = Math.floor(f/10), p = f % 10, x = t[1], y = t[2], r = RAD[p];
+  var g = el('g', { 'class':'bq-t', tabindex:'0', role:'button', 'aria-pressed':'false', 'data-f':f, 'aria-label':QN[q] + ', ' + p + ' — ' + TYPE[p] }, svg);
+  el('circle', { cx:x, cy:y, r:r }, g);
+  var cy = q <= 2 ? 470 : 530, vx = x - 420, vy = y - cy, l = Math.hypot(vx, vy), off = r + 30;
+  el('text', { 'class':'bq-n', x:(x + vx/l*off).toFixed(0), y:(y + vy/l*off).toFixed(0), 'data-n':f }, svg).textContent = p;
+});
+el('text', { 'class':'bq-jaw', x:420, y:330 }, svg).textContent = 'Верхняя челюсть';
+el('text', { 'class':'bq-jaw', x:420, y:690 }, svg).textContent = 'Нижняя челюсть';
+
+function tName(f){ var p = f % 10; return QN[Math.floor(f/10)] + ', ' + p; }
+function info(f){ var p = f % 10; $('bq-info').textContent = (picked[f] ? 'Отмечен: ' : 'Снята отметка: ') + tName(f) + ' — ' + TYPE[p]; }
+function renderPicked(){
+  var t = Object.keys(picked).sort(), z = ZONES.filter(function(x){ return zones[x.id]; }).map(function(x){ return x.t.toLowerCase(); });
+  var box = $('bq-picked'); box.innerHTML = '';
+  if (!t.length && !z.length) return;
+  box.appendChild(document.createTextNode('Отмечено: ' + t.map(function(f){ return tName(+f); }).concat(z).join('; ')));
+  var c = h('button', null, 'сбросить'); c.type = 'button';
+  c.onclick = function(){ Object.keys(picked).forEach(function(f){ toggle(+f, false); }); Object.keys(zones).forEach(function(k){ zoneToggle(k, false); }); $('bq-info').textContent = ''; };
+  box.appendChild(c);
+}
+function toggle(f, force){
+  var on = force === undefined ? !picked[f] : force;
+  if (on) picked[f] = 1; else delete picked[f];
+  var g = svg.querySelector('[data-f="' + f + '"]'), n = svg.querySelector('[data-n="' + f + '"]');
+  g.classList.toggle('is-on', on); g.setAttribute('aria-pressed', on ? 'true' : 'false'); n.classList.toggle('is-on', on);
+  if (on) goal('quiz_tooth');
+  renderPicked();
+}
+svg.addEventListener('click', function(e){ var g = e.target.closest && e.target.closest('.bq-t'); if (g){ var f = +g.getAttribute('data-f'); toggle(f); info(f); } });
+svg.addEventListener('keydown', function(e){ if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('bq-t')){ e.preventDefault(); var f = +e.target.getAttribute('data-f'); toggle(f); info(f); } });
+svg.addEventListener('mouseover', function(e){ var g = e.target.closest && e.target.closest('.bq-t'); if (g){ var f = +g.getAttribute('data-f'); $('bq-info').textContent = tName(f) + ' — ' + TYPE[f % 10]; } });
+
+function chips(boxId, list, multi, store, onChange){
+  var box = $(boxId);
+  list.forEach(function(it){
+    var b = h('button', 'bq-chip', it.t); b.type = 'button'; b.setAttribute('data-id', it.id); b.setAttribute('aria-pressed', 'false');
+    b.onclick = function(){
+      if (!multi){ Object.keys(store).forEach(function(k){ delete store[k]; }); box.querySelectorAll('.bq-chip').forEach(function(x){ x.classList.remove('is-on'); x.setAttribute('aria-pressed','false'); }); store[it.id] = 1; b.classList.add('is-on'); b.setAttribute('aria-pressed','true'); }
+      else zoneToggle(it.id);
+      if (onChange) onChange();
+    };
+    box.appendChild(b);
+  });
+}
+function zoneToggle(id, force){
+  var on = force === undefined ? !zones[id] : force;
+  if (on) zones[id] = 1; else delete zones[id];
+  if (on && id === 'unknown') ZONES.forEach(function(z){ if (z.id !== 'unknown') zoneToggle(z.id, false); });
+  if (on && id !== 'unknown') delete zones.unknown;
+  $('bq-zones').querySelectorAll('.bq-chip').forEach(function(b){ var k = b.getAttribute('data-id'); b.classList.toggle('is-on', !!zones[k]); b.setAttribute('aria-pressed', zones[k] ? 'true' : 'false'); });
+  renderPicked();
+}
+chips('bq-zones', ZONES, true, zones);
+
+/* ===================== СИМПТОМЫ ===================== */
+var chosen = {};
+SYM.forEach(function(s){
+  var l = h('label', 'bq-opt' + (s.wide ? ' is-wide' : ''), '<input type="checkbox" value="' + s.id + '"><span class="bq-box"></span><span>' + s.t + (s.s ? '<small>' + s.s + '</small>' : '') + '</span>');
+  var inp = l.querySelector('input');
+  inp.addEventListener('change', function(){
+    if (inp.checked) chosen[s.id] = 1; else delete chosen[s.id];
+    l.classList.toggle('is-on', inp.checked); goal('quiz_start');
+  });
+  $('bq-sym').appendChild(l);
+});
+
+/* ===================== ВОПРОСЫ ПРО ПРИКУС ===================== */
+var bite = {};
+BITE.forEach(function(q){
+  var row = h('div', 'bq-q', '<span>' + q.t + '</span>'), seg = h('div', 'bq-seg');
+  [['yes','Да'],['no','Нет'],['nd','Не знаю']].forEach(function(o){
+    var b = h('button', null, o[1]); b.type = 'button';
+    b.onclick = function(){ var on = bite[q.id] !== o[0]; seg.querySelectorAll('button').forEach(function(x){ x.classList.remove('is-on'); }); if (on){ bite[q.id] = o[0]; b.classList.add('is-on'); } else delete bite[q.id]; };
+    seg.appendChild(b);
+  });
+  row.appendChild(seg); $('bq-bite').appendChild(row);
+});
+
+/* ===================== ШАГИ ===================== */
+function steps(n){ root.querySelectorAll('.bq-steps li').forEach(function(li){ li.classList.toggle('is-on', +li.getAttribute('data-step') <= n); }); }
+function show(id){ ['bq-s2','bq-s25','bq-s3'].forEach(function(x){ $(x).classList.toggle('bq-hide', x !== id); }); steps(id === 'bq-s3' ? 3 : 2);
+  if (window.innerWidth < 980){ var top = $(id).getBoundingClientRect().top + window.pageYOffset - 80; window.scrollTo({ top:top, behavior:'smooth' }); } }
+function needBite(){
+  var any = false, gn = false;
+  SYM.forEach(function(s){ if (chosen[s.id]){ if (s.tooth) any = true; if (s.gn) gn = true; } });
+  return any && !gn;
+}
+$('bq-go').onclick = function(){ goal('quiz_start'); if (needBite()){ show('bq-s25'); goal('quiz_bite'); } else result(); };
+$('bq-go2').onclick = result;
+$('bq-skip').onclick = function(){ bite = {}; result(); };
+root.querySelectorAll('[data-back]').forEach(function(b){ b.onclick = function(){ show('bq-s2'); }; });
+
+/* ===================== РЕШЕНИЕ ===================== */
+var last = { list:[], yes:[] };
+function solve(){
+  var score = {}, why = {};
+  var teeth = Object.keys(picked).map(Number);
+  var onlyWisdom = (zones.wisdom && !teeth.length);
+  var front = zones.front || teeth.some(function(f){ return f % 10 <= 3; });
+  var single = teeth.length === 1;
+  var any = Object.keys(chosen).length;
+  SYM.forEach(function(s){
+    if (!chosen[s.id]) return;
+    s.srv.forEach(function(k, i){
+      if (k === 'implant' && onlyWisdom && s.id === 'remove') return;
+      if (k === 'whiten' && single) return;
+      var w = 3 - i; if (k === 'restore' && front) w += 1;
+      score[k] = (score[k] || 0) + w; (why[k] = why[k] || []).push(s.t.toLowerCase());
+    });
+  });
+  var yes = BITE.filter(function(q){ return bite[q.id] === 'yes'; });
+  if (yes.length >= 2){ score.gnato = 100; why.gnato = ['вы ответили «да» на вопросы о прикусе']; }
+  var list = Object.keys(score).sort(function(a, b){ return score[b] - score[a]; }).slice(0, 3);
+  if (!any && !list.length) list = ['hygiene'];
+  return { list:list, why:why, yes:yes };
+}
+function card(k, opts){
+  var s = SRV[k], d = h('div', 'bq-srv' + (opts.cls ? ' ' + opts.cls : ''));
+  var html = (opts.tag ? '<span class="bq-tag">' + opts.tag + '</span>' : '') +
+    '<div class="bq-srv-top"><b>' + (opts.title || s.t) + '</b>' + (s.url ? '<a href="' + s.url + '" target="_blank" rel="noopener">Подробнее</a>' : '') + '</div>' +
+    '<p>' + (opts.text || s.d) + (opts.why ? ' Подходит, если: ' + opts.why + '.' : '') + '</p>' +
+    (s.fig && CFG.imgTooth ? '<div class="bq-fig"><div class="bq-fig-img"><img src="' + CFG.imgTooth + '" alt="Строение зуба в разрезе" loading="lazy"><i></i></div><small>Розовая часть в центре — пульпа, нерв и сосуды зуба. Когда она воспаляется, зуб болит сам по себе, чаще ночью.</small></div>' : '') +
+    '<div class="bq-price">' + s.price + '</div>' + (s.doc ? '<div class="bq-doc">' + s.doc + '</div>' : '');
+  d.innerHTML = html; return d;
+}
+function result(){
+  var r = solve(); last = r;
+  var box = $('bq-res'); box.innerHTML = '';
+  box.appendChild(card('consult', { tag:'Первый шаг', cls:'is-first' }));
+  r.list.forEach(function(k){
+    if (k === 'gnato' && r.yes.length >= 2) box.appendChild(card('gnato', { tag:'Возможно, причина в прикусе', cls:'is-key', text:'Ваши ответы похожи на перегрузку сустава и мышц. Если её не убрать, пломбы и коронки будут скалываться снова. ' + SRV.gnato.d }));
+    else box.appendChild(card(k, { why:(r.why[k] || []).join(', ') }));
+  });
+  if (r.yes.length === 1) box.appendChild(h('div', 'bq-soft-note', 'Вы отметили: «' + r.yes[0].t.toLowerCase() + '». Скажите об этом врачу на консультации: иногда так проявляется перегрузка сустава.'));
+  box.appendChild(h('p', 'bq-pricenote', 'Цены — по прайсу клиники, «от». Итоговая стоимость зависит от материалов и объёма работы, её врач назовёт после осмотра.'));
+  var t = Object.keys(picked).length;
+  $('bq-sum').textContent = (t ? 'Отмечено зубов: ' + t + '. ' : '') + 'Окончательное решение врач примет после осмотра.';
+  $('bq-back3').setAttribute('data-back', 's2');
+  show('bq-s3'); goal('quiz_result');
+}
+
+/* ===================== ФОРМА ===================== */
+var how = { call:1 }, when = {};
+chips('bq-how', [{id:'call',t:'Позвонить'},{id:'max',t:'MAX'},{id:'tg',t:'Telegram'},{id:'sms',t:'SMS'}], false, how);
+chips('bq-when', [{id:'now',t:'Сейчас'},{id:'evening',t:'Вечером'}], false, when);
+$('bq-how').querySelector('[data-id="call"]').classList.add('is-on');
+var HOW = { call:'позвонить', max:'написать в MAX', tg:'написать в Telegram', sms:'написать SMS' }, WHEN = { now:'сейчас', evening:'вечером' };
+
+var ph = $('bq-phone');
+function digits(v){ var d = v.replace(/\D/g, ''); if (d[0] === '8') d = '7' + d.slice(1); if (d && d[0] !== '7') d = '7' + d; return d.slice(0, 11); }
+function fmt(d){ var r = '+7'; if (d.length > 1) r += ' (' + d.slice(1, 4); if (d.length >= 4) r += ')'; if (d.length > 4) r += ' ' + d.slice(4, 7); if (d.length > 7) r += '-' + d.slice(7, 9); if (d.length > 9) r += '-' + d.slice(9, 11); return r; }
+ph.addEventListener('input', function(){ var d = digits(ph.value); ph.value = d.length ? fmt(d) : ''; ph.classList.remove('is-err'); });
+ph.addEventListener('focus', function(){ if (!ph.value) ph.value = '+7 ('; });
+ph.addEventListener('blur', function(){ if (digits(ph.value).length <= 1) ph.value = ''; });
+
+function payload(){
+  var t = Object.keys(picked).map(Number).sort(function(a,b){return a-b;}).map(function(f){ return tName(f) + ' (' + f + ')'; });
+  var z = ZONES.filter(function(x){ return zones[x.id]; }).map(function(x){ return x.t.toLowerCase(); });
+  var s = SYM.filter(function(x){ return chosen[x.id]; }).map(function(x){ return x.t.toLowerCase(); });
+  var b = BITE.filter(function(q){ return bite[q.id]; }).map(function(q){ return q.t.split(' — ')[0].split(',')[0] + ': ' + ({yes:'да',no:'нет',nd:'не знает'})[bite[q.id]]; });
+  var c = HOW[Object.keys(how)[0] || 'call'] + (Object.keys(when)[0] ? ', ' + WHEN[Object.keys(when)[0]] : '');
+  return {
+    teeth: t.concat(z).join('; ') || 'не отмечены',
+    symptoms: s.join('; ') || 'не выбраны',
+    bite: b.join('; ') || 'не отвечал',
+    services: ['консультация'].concat(last.list.map(function(k){ return SRV[k].t.toLowerCase(); })).join('; '),
+    contact: c
+  };
+}
+function setVal(form, name, v){ var n = 0; form.querySelectorAll('[name="' + name + '"]').forEach(function(i){ i.value = v; i.dispatchEvent(new Event('input', { bubbles:true })); i.dispatchEvent(new Event('change', { bubbles:true })); n++; }); return n; }
+function thanks(name){
+  $('bq-form').classList.add('bq-hide'); $('bq-ok').classList.remove('bq-hide'); $('bq-back3').classList.add('bq-hide');
+  $('bq-ok-title').textContent = name ? name + ', спасибо!' : 'Спасибо!';
+  var v = $('bq-video');
+  if (!CFG.rutube && !CFG.videoPoster && !CFG.mp4){ v.classList.add('bq-hide'); return; }
+  v.innerHTML = (CFG.videoPoster ? '<img src="' + CFG.videoPoster + '" alt="Обзор клиники">' : '') + '<button class="bq-play" type="button" aria-label="Смотреть обзор клиники"></button>';
+  v.querySelector('.bq-play').onclick = function(){
+    goal('quiz_video');
+    if (!CFG.rutube && CFG.mp4){ v.innerHTML = '<video src="' + CFG.mp4 + '" controls autoplay playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>'; return; }
+    if (CFG.rutube) v.innerHTML = '<iframe src="' + CFG.rutube + (CFG.rutube.indexOf('?') < 0 ? '?' : '&') + 'autoplay=1" allow="autoplay; fullscreen; encrypted-media" allowfullscreen title="Обзор клиники"></iframe>';
+  };
+}
+$('bq-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  var err = $('bq-err'), d = digits(ph.value); err.textContent = '';
+  var noPhone = d.length <= 1 && !CFG.phoneRequired;
+  if (!noPhone && d.length !== 11){ ph.classList.add('is-err'); err.textContent = 'Проверьте номер телефона'; ph.focus(); return; }
+  if (!noPhone && !$('bq-agree').checked){ err.textContent = 'Отметьте согласие на обработку персональных данных'; return; }
+  var name = $('bq-name').value.trim(), p = payload();
+  goal('quiz_submit');
+  var rec = CFG.tildaForm && document.querySelector(CFG.tildaForm);
+  var form = rec && (rec.tagName === 'FORM' ? rec : rec.querySelector('form'));
+  if (form){
+    setVal(form, CFG.fields.name, name || 'Без имени'); setVal(form, CFG.fields.phone, noPhone ? 'не указан' : fmt(d));
+    ['teeth','symptoms','bite','services','contact'].forEach(function(k){ setVal(form, CFG.fields[k], p[k]); });
+    var btn = form.querySelector('.t-submit, [type="submit"]');
+    $('bq-send').disabled = true; $('bq-send').textContent = 'Отправляем…';
+    if (btn) btn.click(); else if (form.requestSubmit) form.requestSubmit(); else form.submit();
+    setTimeout(function(){ thanks(name); }, 1200);
+    return;
+  }
+  var a = document.querySelector('a[href="' + CFG.fallbackPopup + '"]');
+  if (a && !root.hasAttribute('data-preview')){ a.click(); return; }
+  if (window.console) console.log('[budovsky-quiz] заявка (превью):', name, fmt(d), p);
+  root.setAttribute('data-last', JSON.stringify(p));
+  thanks(name);
+});
+if (CFG.tildaForm){ var hid = document.querySelector(CFG.tildaForm); if (hid) hid.style.display = 'none'; }
+})();
+</script>
