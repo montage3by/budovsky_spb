@@ -183,12 +183,12 @@
       <!-- результат -->
       <div id="bq-s3" class="bq-hide">
         <button class="bq-back" type="button" data-back="s2" id="bq-back3">Изменить ответы</button>
-        <h3 class="bq-h3">Вам может подойти</h3>
+        <h3 class="bq-h3" id="bq-res-title">Вам может подойти</h3>
         <p class="bq-sum" id="bq-sum"></p>
         <div class="bq-res" id="bq-res"></div>
 
         <form class="bq-form" id="bq-form" novalidate>
-          <h3 class="bq-h3">Получите план лечения и расчёт стоимости</h3>
+          <h3 class="bq-h3">Запишитесь на консультацию</h3>
           <p>Администратор свяжется с вами, ответит на вопросы и подберёт время консультации. Ваши ответы врач увидит заранее.</p>
           <div class="bq-fields">
             <input class="bq-in" id="bq-name" type="text" autocomplete="given-name" placeholder="Ваше имя" aria-label="Ваше имя">
@@ -199,7 +199,7 @@
           <div class="bq-lbl">Когда</div>
           <div class="bq-chips" id="bq-when"></div>
           <label class="bq-agree"><input type="checkbox" id="bq-agree"> <span>Даю согласие на <a href="/privacy" target="_blank" rel="noopener">обработку персональных данных</a></span></label>
-          <button class="bq-btn" id="bq-send" type="submit">Получить план и расчёт</button>
+          <button class="bq-btn" id="bq-send" type="submit">Записаться на консультацию</button>
           <div class="bq-err" id="bq-err" role="alert"></div>
         </form>
 
@@ -487,7 +487,10 @@ function payload(){
 }
 function setVal(form, name, v){ var n = 0; form.querySelectorAll('[name="' + name + '"]').forEach(function(i){ i.value = v; i.dispatchEvent(new Event('input', { bubbles:true })); i.dispatchEvent(new Event('change', { bubbles:true })); n++; }); return n; }
 function thanks(name){
-  $('bq-form').classList.add('bq-hide'); $('bq-ok').classList.remove('bq-hide'); $('bq-back3').classList.add('bq-hide');
+  /* после отправки оставляем только блок с именем и видео и прокручиваем к нему */
+  ['bq-form','bq-back3','bq-res-title','bq-sum','bq-res'].forEach(function(id){ $(id).classList.add('bq-hide'); });
+  $('bq-ok').classList.remove('bq-hide');
+  var top = $('bq-ok').getBoundingClientRect().top + window.pageYOffset - 90; window.scrollTo({ top:top, behavior:'smooth' });
   $('bq-ok-title').textContent = name ? name + ', спасибо!' : 'Спасибо!';
   var v = $('bq-video');
   if (!CFG.rutube && !CFG.videoPoster && !CFG.mp4){ v.classList.add('bq-hide'); return; }
