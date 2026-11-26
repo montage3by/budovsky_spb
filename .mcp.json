@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "yandex-direct": {
+      "command": "npx",
+      "args": ["-y", "mcp-yandex-direct@1.14.0"],
+      "env": {
+        "YANDEX_DIRECT_TOKEN": "set-by-proxy",
+        "ASKADS_TELEMETRY": "0",
+        "NODE_USE_ENV_PROXY": "1"
+      }
+    }
+  }
+}
