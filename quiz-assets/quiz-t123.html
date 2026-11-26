@@ -230,7 +230,8 @@ var CFG = {
   fields: { name:'Name', phone:'Phone', teeth:'Зубы', symptoms:'Беспокоит', bite:'Прикус', services:'Показали', contact:'Связаться' },
   /* номер счётчика Метрики; если пусто, берётся счётчик Tilda */
   metrika: '',
-  fallbackPopup: '#popup:stepform',
+  /* ТЕСТ: пусто, чтобы не открывался поп-ап клиники и заявки не уходили. Для главной вернуть '#popup:stepform' или задать tildaForm */
+  fallbackPopup: '',
   /* ВРЕМЕННО для теста: false — можно отправить без телефона. Перед запуском поставить true */
   phoneRequired: false
 };
@@ -508,7 +509,7 @@ $('bq-form').addEventListener('submit', function(e){
     setTimeout(function(){ thanks(name); }, 1200);
     return;
   }
-  var a = document.querySelector('a[href="' + CFG.fallbackPopup + '"]');
+  var a = CFG.fallbackPopup && document.querySelector('a[href="' + CFG.fallbackPopup + '"]');
   if (a && !root.hasAttribute('data-preview')){ a.click(); return; }
   if (window.console) console.log('[budovsky-quiz] заявка (превью):', name, fmt(d), p);
   root.setAttribute('data-last', JSON.stringify(p));
