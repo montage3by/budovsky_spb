@@ -24,8 +24,10 @@
 .bq-t circle{fill:rgba(103,114,144,0);stroke:rgba(103,114,144,0);stroke-width:5;transition:fill .15s,stroke .15s}
 .bq-t:hover circle{stroke:rgba(103,114,144,.55)}
 .bq-t:focus-visible circle{stroke:var(--bq-deep)}
+.bq-t.is-zone circle{fill:rgba(103,114,144,.22);stroke:var(--bq-brand);stroke-dasharray:7 5;stroke-width:3}
 .bq-t.is-on circle{fill:rgba(103,114,144,.55);stroke:var(--bq-brand)}
 .bq-n{font:700 24px BQObject,Arial,sans-serif;fill:#8b93a6;text-anchor:middle;dominant-baseline:central;pointer-events:none;paint-order:stroke;stroke:#fff;stroke-width:6px;stroke-linejoin:round}
+.bq-n.is-zone{fill:var(--bq-brand)}
 .bq-n.is-on{fill:var(--bq-deep)}
 .bq-jaw{font:400 22px BQObject,Arial,sans-serif;letter-spacing:.14em;fill:#9aa2b4;text-anchor:middle;text-transform:uppercase}
 .bq-side{position:absolute;top:0;font-size:12px;color:var(--bq-muted);background:#fff;border-radius:999px;padding:3px 10px}
@@ -358,8 +360,14 @@ function zoneToggle(id, force){
   if (on && id === 'unknown') ZONES.forEach(function(z){ if (z.id !== 'unknown') zoneToggle(z.id, false); });
   if (on && id !== 'unknown') delete zones.unknown;
   $('bq-zones').querySelectorAll('.bq-chip').forEach(function(b){ var k = b.getAttribute('data-id'); b.classList.toggle('is-on', !!zones[k]); b.setAttribute('aria-pressed', zones[k] ? 'true' : 'false'); });
+  paintZones();
   renderPicked();
 }
+/* зубы выбранной зоны подсвечиваем пунктиром, отдельно от выбранных вручную */
+function inZone(f){ var q = Math.floor(f/10), p = f % 10; return !!(
+  (zones.ur && q === 1) || (zones.ul && q === 2) || (zones.ll && q === 3) || (zones.lr && q === 4) || (zones.front && p <= 3)); }
+function paintZones(){ TEETH.forEach(function(t){ var f = t[0], on = inZone(f);
+  svg.querySelector('[data-f="' + f + '"]').classList.toggle('is-zone', on); svg.querySelector('[data-n="' + f + '"]').classList.toggle('is-zone', on); }); }
 chips('bq-zones', ZONES, true, zones);
 
 /* ===================== СИМПТОМЫ ===================== */
